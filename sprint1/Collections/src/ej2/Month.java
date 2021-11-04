@@ -1,4 +1,6 @@
-package ej1;
+package ej2;
+import java.util.Objects;
+
 
 public class Month {
 	
@@ -16,8 +18,5 @@ public class Month {
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	
-	
-
 }
