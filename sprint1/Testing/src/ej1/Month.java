@@ -1,21 +1,30 @@
 package ej1;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Month {
 	
-	private String name;
+	private List<String> lista;
 	
-	public Month(String name) {
-		this.name = name;
+	public Month(String[] elementos) {
+		
+		this.lista= new ArrayList<String>
+        (Arrays.asList(elementos));
+		
 	}
 
-
-	public String getName() {
-		return name;
+	public int getSize() {
+		return this.lista.size();
+	}	
+	
+	public String getElement(int pos) {
+		return lista.get(pos);
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
+	
+
 
 	
 	

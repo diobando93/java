@@ -22,10 +22,12 @@ public class DNI {
 		this.numDNI = numDNI;
 	}
 	*/
-	public void obtenerLetra(int numeroDNI) {
+	public char obtenerLetra(int numeroDNI) {
 		int resto;
 		resto = numeroDNI % 23;
 		System.out.println("DNI: " +numeroDNI+letras[resto]);
+		char letra = letras[resto];
+		return letra;
 	}
 
 }
