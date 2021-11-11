@@ -1,48 +1,61 @@
 package ej8;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Scanner;
 import java.util.*;
 import java.util.Map.Entry;
 
+import ej7.Habitacion;
+
+
 public class Main {
 	
-	LinkedHashMap<String,Integer> listaLHM = new LinkedHashMap<String,Integer>();
-
-    listaLHM.put("uno",1);
-    listaLHM.put("dos",2);
-    listaLHM.put("tres",3);
-    listaLHM.put("cuatro",4);
-
-    System.out.println(listaLHM);
-
-    Set<Entry<String,Integer>> entrySet = listaLHM.entrySet();
-    ArrayList<Map.Entry<String,Integer>> listaAL = new ArrayList<>();
-
-    listaAL.addAll(entrySet); 
-
-
-    Collections.sort(listaAL, new Comparator <Map.Entry<String,Integer>>() {
-        public int comparador(Map.Entry<String,Integer> entry1,Map.Entry<String,Integer> entry2) {
-            return Integer.compare(entry1.getValue(),  entry2.getValue());
+	public static void main(String[] args) {
+		 
+		
+		LinkedHashMap<String, Habitacion> habitacionesHash = new LinkedHashMap<String, Habitacion>(); 
+        habitacionesHash.put("20", new Habitacion("James",20));
+        habitacionesHash.put("10", new Habitacion("Mary",10));
+        habitacionesHash.put("80", new Habitacion("John",80));
+        habitacionesHash.put("40", new Habitacion("Amanda",40));
+	    /*
+		LinkedHashMap<String, Integer> habitacionesHash = new LinkedHashMap<String, Integer>(); 
+		habitacionesHash.put("jalisco", 5);
+	    habitacionesHash.put("mexicodf", 8);
+	    habitacionesHash.put("tijuana", 10);
+	    habitacionesHash.put("tetoticlan", 4); 
+	    HashMap<String,Integer> lista = new HashMap<>() ;
+        Habitacion [] habitacionesArray = {new Habitacion("James",20),
+        		new Habitacion("Mary",10),
+        		new Habitacion("John",80),
+        		new Habitacion("Amanda",40)};
+        
+        for(int i=0; i < habitacionesArray.length; i++) {
+        	System.out.println(habitacionesArray[i]);
         }
-
-        @Override
-        public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        Arrays.sort(habitacionesArray);
+        
+        for(Habitacion temp: habitacionesArray) {
+        	System.out.println(temp);
         }
-  } );
-
-    System.out.println(listaAL);
-    listaLHM.clear();
-
-    for (Map.Entry<String,Integer> cosas:listaAL) {
-        listaLHM.put(cosas.getKey(), cosas.getValue());
-    }
-     System.out.println(listaLHM);
-
-
-  }
-
+	    
+	    
+	    
+	    */
+        
+        HashMap<String, Habitacion> habitacionsorted = new HashMap();
+        SortedSet<String> keys = new TreeSet<>(habitacionesHash.keySet());
+        for(String key : keys) {
+        	Habitacion value = habitacionesHash.get(key);
+        	System.out.println(key + "-" + value);
+        	habitacionsorted.put(key, value);
+        	
+        }
+        
+	    
+	    System.out.println(habitacionsorted);
+	   // Arrays.sort(habitacionsorted);
+	    
+	    
+	    
+		 
+	}
 }

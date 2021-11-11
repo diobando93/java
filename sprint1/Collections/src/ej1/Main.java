@@ -20,6 +20,7 @@ public class Main {
 		month.add(new Month("Diciembre"));
 		
 		month.add(7, new Month("Agosto"));
+
 		
 		for (Month meses:month) {
 			System.out.println(meses.getName());
