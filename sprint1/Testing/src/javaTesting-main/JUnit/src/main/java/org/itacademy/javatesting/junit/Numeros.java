@@ -1,4 +1,4 @@
-package org.itacademy.javatesting.junit;
+package ej3;
 
 public class Numeros {
 	private int []pepe = new int[5];
