@@ -5,6 +5,17 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path="Testing/javaTesting-main/Hamcrest/src/main/java"/>
+	<classpathentry kind="src" path="Testing/javaTesting-main/Hamcrest/src/test/java"/>
+	<classpathentry kind="src" path="Testing/javaTesting-main/JUnit/src/main/java"/>
+	<classpathentry kind="src" path="Testing/javaTesting-main/JUnit/src/test/java"/>
+	<classpathentry excluding="javaTesting-main/Hamcrest/src/test/java/|javaTesting-main/AssertJ/src/main/java/|javaTesting-main/JUnit/src/main/java/|javaTesting-main/AssertJ/src/test/java/|javaTesting-main/Hamcrest/src/main/java/|javaTesting-main/JUnit/src/test/java/" kind="src" path="Testing/src"/>
+	<classpathentry kind="src" path="Testing/src/javaTesting-main/AssertJ/src/main/java"/>
+	<classpathentry kind="src" path="Testing/src/javaTesting-main/AssertJ/src/test/java"/>
+	<classpathentry kind="src" path="Testing/src/javaTesting-main/Hamcrest/src/main/java"/>
+	<classpathentry kind="src" path="Testing/src/javaTesting-main/Hamcrest/src/test/java"/>
+	<classpathentry kind="src" path="Testing/src/javaTesting-main/JUnit/src/main/java"/>
+	<classpathentry kind="src" path="Testing/src/javaTesting-main/JUnit/src/test/java"/>
 	<classpathentry kind="lib" path="Testing/bin/javaTesting-main/assertj-core-3.20.2.jar"/>
 	<classpathentry kind="lib" path="Testing/bin/javaTesting-main/gradle/wrapper/gradle-wrapper.jar"/>
 	<classpathentry kind="lib" path="Testing/javaTesting-main/assertj-core-3.20.2.jar"/>
