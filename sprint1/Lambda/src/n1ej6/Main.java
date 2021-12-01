@@ -2,6 +2,7 @@ package n1ej6;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Main {
 	
@@ -22,8 +23,9 @@ public class Main {
 		month.add("Noviembre");
 		month.add("Diciembre");
 		
+		Referencia imprime = new Referencia();
 		
-
+		imprime.imprime(Referencia::month);
 		
 	}
 	
@@ -37,12 +39,6 @@ public class Main {
 		
 	}
 	*/
-	
-	public static void imprime(String[] months) {
-		
-		Arrays.stream(months).forEach(System.out::println);
-		
-	}
 
 }
 
