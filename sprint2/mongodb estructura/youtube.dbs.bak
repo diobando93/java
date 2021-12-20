@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="MongoDb" id="Project-15f3" database="MongoDb" >
+	<schema name="youtube" >
+		<table name="canal" >
+			<column name="_id" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			<column name="nombre" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="descripcion" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="fecha" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+		</table>
+		<table name="comentarios" >
+			<column name="_id" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			<column name="comentario" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="fechaHora" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+		</table>
+		<table name="comentariosLike" >
+			<column name="_id" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			<column name="fechaHora" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="valoracion" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+		</table>
+		<table name="playlist" >
+			<column name="_id" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			<column name="nombre" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="fecha" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="estado" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+		</table>
+		<table name="usuario" >
+			<column name="_id" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			<column name="nombreUsuario" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="email" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="password" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="fechaNacimiento" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="sexo" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="Pais" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="CP" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="canalLike" type="object" length="800" decimal="0" jt="4999544" mandatory="y" >
+				<column name="_id" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+				<column name="nombreCanal" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			</column>
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<fk name="Fk_usuario_canal" virtual="y" to_schema="youtube" to_table="canal" >
+				<fk_column name="canalLike._id" pk="_id" />
+			</fk>
+		</table>
+		<table name="video" >
+			<column name="_id" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			<column name="titulo" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="descripcion" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="tamanio" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="archivo" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="duracion" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="thumbnail" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="reproducciones" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			<column name="likes" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			<column name="dislike" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			<column name="estado" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="fecha_hora" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="usuario" type="object" length="800" decimal="0" jt="4999544" mandatory="y" >
+				<column name="id" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+				<column name="NombreUsuario" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			</column>
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<fk name="Fk_video_usuario" virtual="y" to_schema="youtube" to_table="usuario" >
+				<fk_column name="usuario.id" pk="_id" />
+			</fk>
+		</table>
+	</schema>
+	<connector name="MongoDb" database="MongoDb" driver_class="com.dbschema.MongoJdbcDriver" driver_jar="mongojdbc3.1.jar" driver_desc="No Authentication" host="localhost" port="27017" instance="youtube" user="admin" />
+	<layout name="Main Layout" id="Layout-1360" show_relation="name" >
+		<entity schema="youtube" name="canal" color="3986C1" x="928" y="144" />
+		<entity schema="youtube" name="usuario" column="canalLike" color="3986C1" x="720" y="256" />
+		<entity schema="youtube" name="comentarios" color="3986C1" x="1120" y="336" />
+		<entity schema="youtube" name="comentariosLike" color="3986C1" x="592" y="48" />
+		<entity schema="youtube" name="playlist" color="3986C1" x="1008" y="336" />
+		<entity schema="youtube" name="video" column="usuario" color="BED3F4" x="256" y="64" />
+		<entity schema="youtube" name="usuario" color="3986C1" x="384" y="256" />
+		<entity schema="youtube" name="video" color="BED3F4" x="48" y="64" />
+		<script name="Sample" id="Editor-854" language="SQL" >
+			<string><![CDATA[youtube.video.insert({"_id": 1, "titulo": "como no ser un programador", "descripcion": "paradia del mundo del software", "tamanio": "30 MB", 
+										"archivo": "MP4", "duracion": "0:20:12", "thumbnail": "ok", "reproducciones": 100, "likes": 20, "dislike": 500,"estado": "publico",
+											"fecha_hora": "2021-20-12 18:09:12", "usuario": {"id": 1, "NombreUsuario": "israel"} })
+youtube.usuario.insert({"_id": 1, "nombreUsuario": "Israel", "email": "israel_dario10@hotmail.com", "password": "casifhuew2", "fechaNacimiento": "02-10-1993",
+										"sexo": "Masculino", "Pais": "Espania", "CP": "08840",  "canalLike": [{"_id": 1, "nombreCanal": "Standup software"}, {"_id": 2, "nombreCanal": "buscador de presas"}]})
+youtube.canal.insert({"_id": 1, "nombre": "standup software", "descripcion": "jokes about it world", "fecha": "2019-12-11"})
+youtube.playlist.insert({"_id": 1, "nombre": "las olas", "fecha": "2021-10-12", "estado": "publica"})
+youtube.comentarios.insert({"_id": 1, "comentario": "esta buenisimo", "fechaHora": "2021-11-22 13:02:12"})
+youtube.comentariosLike.insert({"_id": 1, "fechaHora": "2018-01-12 04:04:21", "valoracion": "me agrada"})]]></string>
+		</script>
+	</layout>
+</project>
