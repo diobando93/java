@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="MongoDb" id="Project-38f" database="MongoDb" >
+	<schema name="spotify" >
+		<table name="albun" >
+			<column name="_id" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			<column name="titulo" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="publicacion" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="imagen" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="canciones" type="array[object]" length="800" decimal="0" jt="4999545" mandatory="y" >
+				<column name="_id" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			</column>
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<fk name="Fk_albun_canciones" virtual="y" to_schema="spotify" to_table="canciones" >
+				<fk_column name="canciones._id" pk="_id" />
+			</fk>
+			<fk name="Fk_albun_artista" virtual="y" to_schema="spotify" to_table="artista" >
+				<fk_column name="_id" pk="albuns._id" />
+			</fk>
+		</table>
+		<table name="artista" >
+			<column name="_id" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			<column name="nombre" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="imagen" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="albuns" type="array[object]" length="800" decimal="0" jt="4999545" mandatory="y" >
+				<column name="_id" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			</column>
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+		</table>
+		<table name="canciones" >
+			<column name="_id" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			<column name="nombre" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="duracion" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+		</table>
+		<table name="playlist" >
+			<column name="_id" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			<column name="nombre" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="fecha" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="numeroCanciones" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			<column name="user" type="object" length="800" decimal="0" jt="4999544" mandatory="y" >
+				<column name="_id" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			</column>
+			<column name="canciones" type="array[object]" length="800" decimal="0" jt="4999545" mandatory="y" >
+				<column name="_id" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			</column>
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<fk name="Fk_playlist_canciones" virtual="y" to_schema="spotify" to_table="canciones" >
+				<fk_column name="canciones._id" pk="_id" />
+			</fk>
+		</table>
+		<table name="suscripcion" >
+			<column name="_id" type="oid" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="diaInicio" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="renovacion" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="pagoPaypal" type="object" length="800" decimal="0" jt="4999544" mandatory="y" >
+				<column name="_id" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+				<column name="nombreUsuario" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			</column>
+			<column name="tarjetaCredito" type="object" length="800" decimal="0" jt="4999544" mandatory="y" >
+				<column name="_id" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+				<column name="numero" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+				<column name="diaExpiracion" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+				<column name="cvv" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			</column>
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+		</table>
+	</schema>
+	<connector name="MongoDb" database="MongoDb" driver_class="com.dbschema.MongoJdbcDriver" driver_jar="mongojdbc3.1.jar" driver_desc="No Authentication" host="localhost" port="27017" instance="spotify" user="admin" />
+	<layout name="Main Layout" id="Layout-1a10" show_relation="name" >
+		<entity schema="spotify" name="albun" color="BED3F4" x="96" y="176" />
+		<entity schema="spotify" name="artista" column="albuns" color="C7F4BE" x="544" y="48" />
+		<entity schema="spotify" name="artista" color="C7F4BE" x="416" y="48" />
+		<entity schema="spotify" name="canciones" color="F4DDBE" x="272" y="224" />
+		<entity schema="spotify" name="albun" column="canciones" color="BED3F4" x="256" y="96" />
+		<entity schema="spotify" name="playlist" column="canciones" color="3986C1" x="416" y="448" />
+		<entity schema="spotify" name="suscripcion" column="pagoPaypal" color="3986C1" x="1136" y="352" />
+		<entity schema="spotify" name="playlist" color="3986C1" x="48" y="480" />
+		<entity schema="spotify" name="suscripcion" color="3986C1" x="944" y="352" />
+		<entity schema="spotify" name="suscripcion" column="tarjetaCredito" color="3986C1" x="1136" y="448" />
+		<entity schema="spotify" name="playlist" column="user" color="3986C1" x="336" y="352" />
+		<script name="Sample" id="Editor-21bf" language="SQL" >
+			<string><![CDATA[spotify.artista.insert({"_id": 1, "nombre": "Ska-p", "imagen": "/imagenes/artistas",
+									"albuns": [{"_id":1}, {"_id": 2}],})
+spotify.albun.insert({"_id": 1, "titulo": "Ska-p", "publicacion": "2000", "imagen": "/imagenes/albunes", "canciones":[ {"_id": 1}, {"_id": 2}]})
+spotify.canciones.insert({"_id": 1, "nombre": "mis colegas", "duracion": "0:05:23" })
+spotify.playlist.insert({"_id": 1, "nombre": "revolucion", "fecha": "2021-12-21", "numeroCanciones": 56, "user": {"_id": 1}, "canciones": [{"_id": 1}, {"_id": 2}, {"_id": 3}] })
+spotify.suscripcion.insert({"diaInicio": "2020-12-04", "renovacion": "2021-01-04", "pagoPaypal":{"_id": 1, "nombreUsuario": "alcohol"}, 
+											"tarjetaCredito": {"_id": 1, "numero": 1294736349, "diaExpiracion": "2025-05-12", "cvv": 665}})
+
+
+]]></string>
+		</script>
+	</layout>
+</project>
