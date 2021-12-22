@@ -141,7 +141,6 @@ spotify.suscripcion.insert({"diaInicio": "2020-12-04", "renovacion": "2021-01-04
 											"tarjetaCredito": {"_id": 1, "numero": 1294736349, "diaExpiracion": "2025-05-12", "cvv": 665}})
 spotify.user.insert({"_id": 1, "email": "ias@h.com", "password": "23qnisa", "userName": "Raca", "nacimiento": "2000-01-03", "sexo": "femenino", "pais": "espania", "codigoPostal": 08402,
 									"useSusripcion":{"free": "No", "premium": {"paypalID": 1, "creditCardId": 1} } ,"playlist": [{"_id": 1}, {"_id": 2}], "followArtist": [{"_id": 1}, {"_id": 2}]})
-
 ]]></string>
 		</script>
 	</layout>

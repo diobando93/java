@@ -29,6 +29,9 @@
 			<index name="_id_" unique="PRIMARY_KEY" >
 				<column name="_id" />
 			</index>
+			<fk name="Fk_artista_user" virtual="y" to_schema="spotify" to_table="user" >
+				<fk_column name="_id" pk="followArtist._id" />
+			</fk>
 		</table>
 		<table name="canciones" >
 			<column name="_id" type="int" length="800" decimal="0" jt="4" mandatory="y" />
@@ -73,6 +76,41 @@
 			<index name="_id_" unique="PRIMARY_KEY" >
 				<column name="_id" />
 			</index>
+			<fk name="Fk_suscripcion_user" virtual="y" to_schema="spotify" to_table="user" >
+				<fk_column name="pagoPaypal._id" pk="useSusripcion.premium.paypalID" />
+			</fk>
+			<fk name="Fk_suscripcion_user_0" virtual="y" to_schema="spotify" to_table="user" >
+				<fk_column name="tarjetaCredito._id" pk="useSusripcion.premium.creditCardId" />
+			</fk>
+		</table>
+		<table name="user" >
+			<column name="_id" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			<column name="email" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="password" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="userName" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="nacimiento" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="sexo" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="pais" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="codigoPostal" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			<column name="useSusripcion" type="object" length="800" decimal="0" jt="4999544" mandatory="y" >
+				<column name="free" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+				<column name="premium" type="object" length="800" decimal="0" jt="4999544" mandatory="y" >
+					<column name="paypalID" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+					<column name="creditCardId" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+				</column>
+			</column>
+			<column name="playlist" type="array[object]" length="800" decimal="0" jt="4999545" mandatory="y" >
+				<column name="_id" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			</column>
+			<column name="followArtist" type="array[object]" length="800" decimal="0" jt="4999545" mandatory="y" >
+				<column name="_id" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			</column>
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<fk name="Fk_user_playlist" virtual="y" to_schema="spotify" to_table="playlist" >
+				<fk_column name="playlist._id" pk="_id" />
+			</fk>
 		</table>
 	</schema>
 	<connector name="MongoDb" database="MongoDb" driver_class="com.dbschema.MongoJdbcDriver" driver_jar="mongojdbc3.1.jar" driver_desc="No Authentication" host="localhost" port="27017" instance="spotify" user="admin" />
@@ -83,11 +121,16 @@
 		<entity schema="spotify" name="canciones" color="F4DDBE" x="272" y="224" />
 		<entity schema="spotify" name="albun" column="canciones" color="BED3F4" x="256" y="96" />
 		<entity schema="spotify" name="playlist" column="canciones" color="3986C1" x="416" y="448" />
+		<entity schema="spotify" name="user" column="followArtist" color="3986C1" x="912" y="272" />
 		<entity schema="spotify" name="suscripcion" column="pagoPaypal" color="3986C1" x="1136" y="352" />
 		<entity schema="spotify" name="playlist" color="3986C1" x="48" y="480" />
-		<entity schema="spotify" name="suscripcion" color="3986C1" x="944" y="352" />
+		<entity schema="spotify" name="user" column="playlist" color="3986C1" x="784" y="384" />
+		<entity schema="spotify" name="user" column="useSusripcion.premium" color="3986C1" x="1120" y="144" />
+		<entity schema="spotify" name="suscripcion" color="3986C1" x="960" y="416" />
 		<entity schema="spotify" name="suscripcion" column="tarjetaCredito" color="3986C1" x="1136" y="448" />
+		<entity schema="spotify" name="user" column="useSusripcion" color="3986C1" x="944" y="96" />
 		<entity schema="spotify" name="playlist" column="user" color="3986C1" x="336" y="352" />
+		<entity schema="spotify" name="user" color="3986C1" x="688" y="64" />
 		<script name="Sample" id="Editor-21bf" language="SQL" >
 			<string><![CDATA[spotify.artista.insert({"_id": 1, "nombre": "Ska-p", "imagen": "/imagenes/artistas",
 									"albuns": [{"_id":1}, {"_id": 2}],})
@@ -96,7 +139,8 @@ spotify.canciones.insert({"_id": 1, "nombre": "mis colegas", "duracion": "0:05:2
 spotify.playlist.insert({"_id": 1, "nombre": "revolucion", "fecha": "2021-12-21", "numeroCanciones": 56, "user": {"_id": 1}, "canciones": [{"_id": 1}, {"_id": 2}, {"_id": 3}] })
 spotify.suscripcion.insert({"diaInicio": "2020-12-04", "renovacion": "2021-01-04", "pagoPaypal":{"_id": 1, "nombreUsuario": "alcohol"}, 
 											"tarjetaCredito": {"_id": 1, "numero": 1294736349, "diaExpiracion": "2025-05-12", "cvv": 665}})
-
+spotify.user.insert({"_id": 1, "email": "ias@h.com", "password": "23qnisa", "userName": "Raca", "nacimiento": "2000-01-03", "sexo": "femenino", "pais": "espania", "codigoPostal": 08402,
+									"useSusripcion":{"free": "No", "premium": {"paypalID": 1, "creditCardId": 1} } ,"playlist": [{"_id": 1}, {"_id": 2}], "followArtist": [{"_id": 1}, {"_id": 2}]})
 
 ]]></string>
 		</script>
