@@ -23,7 +23,7 @@ public class MongoDB {
                     .projection(projectionFields)
                     .first();
             if (doc == null) {
-                System.out.println("No results found.");
+                System.out.println("no");
             } else {
                 System.out.println(doc.toJson());
             }
