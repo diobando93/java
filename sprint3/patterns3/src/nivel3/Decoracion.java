@@ -5,6 +5,7 @@ public class Decoracion implements Producto{
 	private String nombre;
 	private String tipo;
 	private double precio;
+		
 	public String getNombre() {
 		return nombre;
 	}

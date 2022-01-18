@@ -4,6 +4,9 @@ public class Flores implements Producto{
 	private String nombre;
 	private String color;
 	private double precio;
+	
+	
+	
 	public String getNombre() {
 		return nombre;
 	}
