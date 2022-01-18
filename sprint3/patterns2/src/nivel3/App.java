@@ -6,13 +6,14 @@ public class App {
 
 	public static void main(String [] args) {
 		
-		ArrayList<Articulos> lista = new ArrayList<Articulos>(); 
-		
 		double precio = 24.3;
+	
 		
 		CambioMonedaInjector injector = null;
 		
 		Consumer app = null;
+		
+		System.out.println("La licuadora oster cuesta " + precio + " en USD, en otras monedas cuesta: ");
 		
 		//cambio a euros
 		injector = new EuroInjector();
