@@ -1,53 +1,40 @@
 package nivel3;
 
-public class Arbol implements IProducto{
-	
+public class Flor implements IProducto{
+
 	private String nombre;
-	private String altura;
+	private String color;
 	private double precio;
 
 	@Override
 	public void setCaracteristicas() {
 		this.nombre = Utiles.pedirAtributo("nombre");
-		this.altura = Utiles.pedirAtributo("altura");
+		this.color = Utiles.pedirAtributo("color");
 		this.precio = Utiles.pedirDouble("precio");
 	}
 
 	@Override
 	public String toString() {
-		return "Arbol [nombre=" + nombre + ", altura=" + altura + ", precio=" + precio + "]";
+		return "Flor [nombre=" + nombre + ", color=" + color + ", precio=" + precio + "]";
 	}
-	
+
 	@Override
 	public String getNombre() {
 		return nombre;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
 	@Override
 	public String getAtributo() {
-		return altura;
+		return color;
 	}
 
-	public void setAltura(String altura) {
-		this.altura = altura;
-	}
 	@Override
 	public double getPrecio() {
 		return precio;
 	}
 
-	public void setPrecio(double precio) {
-		this.precio = precio;
-	}
-	
 	@Override
 	public String getTipo() {
-		return "Arbol";
+		return "Flor";
 	}
-	
-	
-	
 }

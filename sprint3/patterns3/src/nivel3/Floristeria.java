@@ -1,22 +1,50 @@
 package nivel3;
 
-
 public class Floristeria {
 	private String nombre;
+	private static Floristeria floristeria;
+	private static Ticket ticket = new Ticket();
+	private FactoryProductos factory = new FactoryProductos();
+	private Conexion conexion = new Conexion();
 	
-	FactoryFloristeria productFloristeria = new FactoryFloristeria();
-	
-	public void addStock(String tipoProducto, String nombre, String caracteristica, String precio) {
-		Producto producto = productFloristeria.getProducto(tipoProducto);
-		producto.setProducto(caracteristica, nombre, precio);
-		System.out.println(producto.getNombre());
-		System.out.println(producto.getPrecio());
-		System.out.println(producto.getCaracteristica());
+	private Floristeria(String nombre) {
+		this.nombre = nombre;
 	}
-	//stock -- > consultar, agregar, eliminar, 
-	//venta --> ticket, suma de saldo 
+	
+	public static Floristeria getInstancia(String nombre) {
+		if(floristeria == null) {
+			return new Floristeria(nombre);
+		}else {
+			return floristeria;
+		}
+	}
+	
+	public void addStock(String tipoProducto){
+		IProducto producto = factory.getProducto(tipoProducto);
+		if (producto instanceof IProducto){
+			producto.setCaracteristicas();
+			conexion.insertarProducto(producto);
+			System.out.println("Se ha añadido un "+producto.toString());
+		}
+	}
+	
+	public void mostrarStock(String tipoProducto) {
+		System.out.println("Existencias de "+tipoProducto+": ");
+		conexion.mostrarDocumentos(tipoProducto, "Producto");
+	}
 
-	//stock
-	//venta --> ticket 
-
+	
+	public void sell(String nombreProducto) {
+		if(conexion.existeDocumento(nombreProducto)) {
+			ticket.update(nombreProducto);
+		}else {
+			System.out.println("No quedan unidades.");
+		}
+	}
+	
+	
+	
+	
+	
+	
 }

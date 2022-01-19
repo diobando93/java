@@ -2,10 +2,17 @@ package nivel3;
 
 public class Ticket {
 	
-	//array de productos con sus diferentes atributos
-	//consultar si hay cantidad del array
-	//procedeer hacer ticket
-	//eliminar productos
-	//sumar a la bd de facturacion
+	private Conexion conexion = new Conexion();
 	
+	public void update(String nombreProducto){
+		conexion.añadirVenta(nombreProducto);
+	}
+	
+	public void getFacturaciónTotal() {
+		System.out.println("El total recaudado suma: "+conexion.sumarFacturacion());
+	}
+	
+	public void verTotalTicket() {
+		conexion.mostrarDocumentos(null, "Ticket");
+	}
 }

@@ -1,39 +1,54 @@
 package nivel3;
 
-public class Decoracion implements Producto{
+public class Decoracion implements IProducto{
 
 	private String nombre;
-	private String tipo;
+	private String material;
 	private double precio;
-		
+
+	@Override
+	public void setCaracteristicas() {
+		this.nombre = Utiles.pedirAtributo("nombre");
+		this.material = Utiles.pedirAtributo("material");
+		this.precio = Utiles.pedirDouble("precio");
+	}
+
+	@Override
+	public String toString() {
+		return "Decoracion [nombre=" + nombre + ", material=" + material + ", precio=" + precio + "]";
+	}
+	
+	@Override
 	public String getNombre() {
 		return nombre;
 	}
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public String getTipo() {
-		return tipo;
+	
+	@Override
+	public String getAtributo() {
+		return material;
 	}
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+
+	public void setMaterial(String material) {
+		this.material = material;
 	}
+	
+	@Override
 	public double getPrecio() {
 		return precio;
 	}
+
 	public void setPrecio(double precio) {
 		this.precio = precio;
 	}
+	
 	@Override
-	public void setProducto(String tipo, String nombre, double precio) {
-		// TODO Auto-generated method stub
-		System.out.println("Decoracion " + nombre + " de tipo " + tipo + "a un precio " + precio );
-		
+	public String getTipo() {
+		return "Decoracion";
 	}
-
-
-	
-	
 	
 	
 	
