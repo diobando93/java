@@ -5,11 +5,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
+
+
 
 @Entity
 @Table(name = "Empleado")
-public class Empleado {
+public class EmpleadoModel {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
@@ -19,8 +22,58 @@ public class Empleado {
     private String apellido;
     private String empleo;
     private double sueldo;
+    @Lob
+    private byte[] fileData;
+    private String fileName;
+    //private String fileType;
+    
+    public EmpleadoModel() {
+    	
+    }
     
     
+	public EmpleadoModel(Long id, String nombre, String apellido, String empleo, double sueldo, byte[] fileData, String fileName) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.empleo = empleo;
+		this.sueldo = sueldo;
+		this.fileData = fileData;
+		this.fileName = fileName;
+		//this.fileType = fileType;
+	}
+	
+	public byte[] getFileData() {
+		return fileData;
+	}
+	public void setFileData(byte[] fileData) {
+		this.fileData = fileData;
+	}
+	
+	
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	/*
+	public byte[] getFileData() {
+		return fileData;
+	}
+	public void setFileData(byte[] fileData) {
+		this.fileData = fileData;
+	}
+	public String getFileType() {
+		return fileType;
+	}
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
+	}
+	*/
 	public Long getId() {
 		return id;
 	}
