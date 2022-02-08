@@ -146,12 +146,14 @@ public class EmpleadoController {
 	
 		
 	@DeleteMapping(path = "/{id}")
-	public String eliminarPorId(@PathVariable("id") Long id) {
+	public ResponseEntity <String> eliminarPorId(@PathVariable("id") Long id) {
 		boolean ok = empleadoService.eliminarEmpleado(id);
 		if(ok == true) {
-			return "Usuario eliminado con exito, id: " + id;
+			return ResponseEntity.ok().
+					body("Usuario eliminado con exito, id: " + id);
 		}else {
-			return "No se encontro usuario, no se elimino id:" + id;
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).
+					body("No se encontro usuario, no se elimino id:" + id);
 		}
 		
 	}
