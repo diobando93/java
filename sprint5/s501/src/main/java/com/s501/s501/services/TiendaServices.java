@@ -1,6 +1,7 @@
 package com.s501.s501.services;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,11 @@ public class TiendaServices {
 	
 	public TiendaModel crearTienda(TiendaModel tienda) {
 		return tiendaRepo.save(tienda);
+	}
+	
+	public Optional<TiendaModel> buscarTiendaId(Long id) {
+		return tiendaRepo.findById(id);
+		
 	}
 	
 }

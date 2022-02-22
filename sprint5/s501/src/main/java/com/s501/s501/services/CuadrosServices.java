@@ -18,6 +18,10 @@ public class CuadrosServices {
 		return cuadroRepo.save(cuadro);
 	}
 	
+	public ArrayList<CuadrosModel> mostarCuadros(){
+		return (ArrayList<CuadrosModel>) cuadroRepo.findAll();
+	}
+	
 	public ArrayList<CuadrosModel> findByIdTienda(Long idTienda){
 		return cuadroRepo.findByIdTienda(idTienda);
 	}
