@@ -68,7 +68,7 @@ public class TiendaController {
 	*/
 	
 	@PostMapping(path="/{id}/pictures")
-	public ResponseEntity<CuadrosModel> crearCuadro(@RequestBody CuadrosModel cuadro, @PathVariable("id") Long id){
+	public ResponseEntity crearCuadro(@RequestBody CuadrosModel cuadro, @PathVariable("id") Long id){
 		Optional<TiendaModel> tienda = tiendaService.buscarTiendaId(id);
 		int capacidad = tienda.get().getCapacidad();
 		ArrayList <CuadrosModel> cuadrosExistentes = cuadroService.findByIdTienda(id);
@@ -77,9 +77,18 @@ public class TiendaController {
 			cuadro.setIdTienda(id);
 			return (ResponseEntity.status(HttpStatus.OK)).
 					body(cuadroService.crearCuadro(cuadro));
-		}else{
+		}else if(cuadro == null){
 			return (ResponseEntity.status(HttpStatus.NO_CONTENT)).
-					body(cuadro);
+					body("faltan datos sobre el cuadro");
+		}else if(id == null) {
+			return (ResponseEntity.status(HttpStatus.BAD_REQUEST)).
+					body("se necesita un id");
+		}else if(tienda == null) {
+			return (ResponseEntity.status(HttpStatus.BAD_REQUEST)).
+					body("no existe la tienda del id");
+		}else {
+			return (ResponseEntity.status(HttpStatus.INSUFFICIENT_STORAGE)).
+					body("Ya no caben mas cuadros");
 		}
 		
 	}
