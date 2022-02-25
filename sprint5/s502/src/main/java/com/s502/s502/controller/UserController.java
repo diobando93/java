@@ -1,17 +1,22 @@
 package com.s502.s502.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.s502.s502.models.GameModel;
 import com.s502.s502.models.UserModel;
+import com.s502.s502.services.GameService;
 import com.s502.s502.services.UserServices;
 
 @RestController
@@ -20,6 +25,8 @@ public class UserController {
 	
 	@Autowired
 	UserServices userService;
+	@Autowired
+	GameService gameService;
 	
 	@PostMapping()
 	public ResponseEntity createUser(@RequestBody UserModel user) {
@@ -47,5 +54,56 @@ public class UserController {
 					.body("No existen usuarios registrados");
 		}
 	}
+	
+	@PostMapping(path="/{id}/games")
+	public ResponseEntity createGames(@RequestBody GameModel game, @PathVariable("id") Long id) {
+		boolean ok = gameService.verifyGameData(game);
+		if(game != null && id != null && ok == true) {
+			double successPercentaje = (game.getShotOne() + game.getShotTwo())/2;
+			game.setSuccessPercentaje(successPercentaje);
+			gameService.createGame(game);
+			return (ResponseEntity.status(HttpStatus.OK))
+					.body(game);
+		}else if(id == null){
+			return (ResponseEntity.status(HttpStatus.OK))
+					.body("Missing id");
+		}else if(ok == false) {
+			return (ResponseEntity.status(HttpStatus.OK))
+					.body("Missing points");
+		}else {
+			return (ResponseEntity.status(HttpStatus.OK))
+					.body("Missing game data");
+		}
+	}
+	
+	@GetMapping(path = "/{id}/games")
+	public ResponseEntity readGames(@PathVariable("id") Long id) {
+		Optional<UserModel> user;
+		ArrayList<GameModel> game;
+		user = userService.findUserById(id);
+		game = gameService.findByUserId(id);
+		if(game != null && user != null) {
+			return (ResponseEntity.status(HttpStatus.OK))
+					.body(game);
+		}else if(user == null) {
+			return (ResponseEntity.status(HttpStatus.OK))
+					.body("No se ha registrado este usuario");
+		}else {
+			return (ResponseEntity.status(HttpStatus.OK))
+					.body("No existen juegos para este usuario");
+		}
+	}
+	
+	@GetMapping(path = "ranking")
+	public ResponseEntity readRanking() {
+		ArrayList<GameModel> game;
+		game = gameService.readUser();
+		HashMap<Long, Double> ranking = new HashMap<>();
+		ranking = gameService.ranking(game);
+		return (ResponseEntity.status(HttpStatus.OK))
+				.body(ranking);
+	}
+	
+	
 	
 }

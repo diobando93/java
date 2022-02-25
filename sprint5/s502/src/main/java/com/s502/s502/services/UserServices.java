@@ -24,6 +24,10 @@ public class UserServices {
 		return (ArrayList<UserModel>) userRepo.findAll();
 	}
 	
+	public Optional<UserModel> findUserById(Long id) {
+		return userRepo.findById(id);
+	}
+	
 	public String verifyUserData(UserModel user) {
 		user.setDate(new Date());
 		UserModel verifyUser;

@@ -19,6 +19,7 @@ public class GameModel {
 	private double shotOne;
 	private double shotTwo;
 	private double successPercentaje;
+	
 	public Long getId() {
 		return id;
 	}
