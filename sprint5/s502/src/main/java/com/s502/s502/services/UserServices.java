@@ -32,7 +32,7 @@ public class UserServices {
 		user.setDate(new Date());
 		UserModel verifyUser;
 		verifyUser = userRepo.findByEmail(user.getEmail());
-		if(verifyUser == null && user.getEmail() != null) {
+		if(verifyUser == null && user.getEmail() != null ) {
 			if(user.getNombre() == null) {
 				user.setNombre("anonimo");
 			}

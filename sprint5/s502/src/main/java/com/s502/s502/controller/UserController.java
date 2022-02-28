@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.s502.s502.models.GameModel;
+import com.s502.s502.models.Ranking;
 import com.s502.s502.models.UserModel;
 import com.s502.s502.services.GameService;
 import com.s502.s502.services.UserServices;
@@ -61,6 +62,7 @@ public class UserController {
 		if(game != null && id != null && ok == true) {
 			double successPercentaje = (game.getShotOne() + game.getShotTwo())/2;
 			game.setSuccessPercentaje(successPercentaje);
+			game.setIdUser(id);
 			gameService.createGame(game);
 			return (ResponseEntity.status(HttpStatus.OK))
 					.body(game);
@@ -98,7 +100,8 @@ public class UserController {
 	public ResponseEntity readRanking() {
 		ArrayList<GameModel> game;
 		game = gameService.readUser();
-		HashMap<Long, Double> ranking = new HashMap<>();
+		//System.out.println(game);
+		ArrayList<Ranking> ranking = new ArrayList<>();
 		ranking = gameService.ranking(game);
 		return (ResponseEntity.status(HttpStatus.OK))
 				.body(ranking);
