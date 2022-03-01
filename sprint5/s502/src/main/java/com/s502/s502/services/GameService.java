@@ -1,11 +1,14 @@
 package com.s502.s502.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Comparator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,46 +35,45 @@ public class GameService {
 		return (ArrayList<GameModel>) gameRepo.findAll();
 	}
 	
-	public ArrayList<Ranking>[] ranking(ArrayList<GameModel> games) {
-		int aux = 0;
-		Ranking entryData = new Ranking(null, null);
-		//HashMap<Long, Double> ranking2 = new HashMap<>();
-		ArrayList<Ranking>[] ranking = new ArrayList[games.size()];
-		System.out.println(games.size());
-		while(aux < games.size()) {
+	public ArrayList<Ranking> ranking(ArrayList<GameModel> games) {
+		
+		ArrayList<Ranking> ranking = new ArrayList<Ranking>();
+		for(int aux = 0; aux < games.size(); aux++) {
+			Ranking entryData = new Ranking(null, null);
 			entryData.setId(games.get(aux).getIdUser());
 			entryData.setSuccessPercentaje(games.get(aux).getSuccessPercentaje());
-			
-			//ranking.add(aux, entryData);
-			aux = aux + 1;
+			ranking.add(aux, entryData);
 		}
-		System.out.println(entryData);
 		return ranking;
 	}
 	
-	public HashMap<Long, Double> worstGamer(ArrayList<GameModel> game){
-		HashMap <Long, Double> worstGamer = new HashMap<>();
-		Double[] percentaje = null ; 
-		for(int i = game.size() - 1; i > 0; i--) {
-			for(int j = 0; j < i; j++) {
-				if(game.get(j).getSuccessPercentaje() > game.get(j+1).getSuccessPercentaje()) {
-					swap(percentaje, j, j+1);
-				}
-			}
-		}
-		System.out.println(percentaje);
-		return worstGamer;
+	public Ranking worstGamer(ArrayList<GameModel> games) {
+		
+		ArrayList<Ranking> rankingGamers = new ArrayList<Ranking>();
+		rankingGamers = ranking(games);
+		System.out.println(Arrays.asList(rankingGamers));
+	    Collections.sort(rankingGamers);
+	    System.out.println(Arrays.asList(rankingGamers));
+	    return rankingGamers.get(0);
+	    
 	}
+	
+	public Ranking bestGamer(ArrayList<GameModel> games) {
+		
+		ArrayList<Ranking> rankingGamers = new ArrayList<Ranking>();
+		rankingGamers = ranking(games);
+		System.out.println(Arrays.asList(rankingGamers));
+	    Collections.sort(rankingGamers);
+	    System.out.println(Arrays.asList(rankingGamers));
+	    return rankingGamers.get(rankingGamers.size()-1);
+	}
+		
 	
 	public boolean verifyGameData(GameModel game) {
 		boolean ok = true;
 		return ok;
 	}
 	
-	public void swap(Double[] array, int a, int b) {
-		Double temp = array[a];
-		array[a] = array[b];
-		array[b] = temp;
-	}
+
 
 }

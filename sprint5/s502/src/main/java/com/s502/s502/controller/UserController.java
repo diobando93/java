@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,6 +42,17 @@ public class UserController {
 			return (ResponseEntity.status(HttpStatus.BAD_REQUEST))
 					.body(responseText);
 		}
+	}
+	
+	@PutMapping()
+	public ResponseEntity updateUserName(@RequestBody String email) {
+		System.out.println(email);
+		UserModel user = userService.findByEmail(email);
+		System.out.println(user);
+		//user.setNombre(nombre);
+		//userService.saveUser(user);
+		return (ResponseEntity.status(HttpStatus.OK))
+				.body(user);
 	}
 	
 	@GetMapping()
@@ -105,6 +117,28 @@ public class UserController {
 		ranking = gameService.ranking(game);
 		return (ResponseEntity.status(HttpStatus.OK))
 				.body(ranking);
+	}
+	
+	@GetMapping(path = "ranking/loser")
+	public ResponseEntity readLoserGamer() {
+		ArrayList<GameModel> games;
+		games = gameService.readUser();
+		Ranking ranking;
+		ranking = gameService.worstGamer(games);
+		return (ResponseEntity.status(HttpStatus.OK))
+				.body(ranking);
+		
+	}
+	
+	@GetMapping(path = "ranking/winner")
+	public ResponseEntity readWinnerGamer() {
+		ArrayList<GameModel> games;
+		games = gameService.readUser();
+		Ranking ranking;
+		ranking = gameService.bestGamer(games);
+		return (ResponseEntity.status(HttpStatus.OK))
+				.body(ranking);
+		
 	}
 	
 	

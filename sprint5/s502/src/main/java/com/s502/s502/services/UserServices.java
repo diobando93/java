@@ -28,6 +28,14 @@ public class UserServices {
 		return userRepo.findById(id);
 	}
 	
+	public UserModel findByEmail(String email) {
+		return userRepo.findByEmail(email);
+	}
+	
+	public UserModel saveUser(UserModel user) {
+		return userRepo.save(user);
+	}
+	
 	public String verifyUserData(UserModel user) {
 		user.setDate(new Date());
 		UserModel verifyUser;

@@ -1,14 +1,13 @@
 package com.s502.s502.models;
 
-public class Ranking {
+public class Ranking implements Comparable<Ranking>{
 	
 	private Long id;
 	private Double successPercentaje;
 	
-	
+
 	
 	public Ranking(Long id, Double successPercentaje) {
-		super();
 		this.id = id;
 		this.successPercentaje = successPercentaje;
 	}
@@ -26,6 +25,16 @@ public class Ranking {
 	public void setSuccessPercentaje(Double successPercentaje) {
 		this.successPercentaje = successPercentaje;
 	}
+	
+	
+	
+	@SuppressWarnings("deprecation")
+	@Override
+	public int compareTo(Ranking o) {
+		return new Double(successPercentaje).compareTo(o.successPercentaje);
+	}
+
+
 	@Override
 	public String toString() {
 		return "Ranking [id=" + id + ", successPercentaje=" + successPercentaje + "]";
