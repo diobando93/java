@@ -36,6 +36,10 @@ public class UserServices {
 		return userRepo.save(user);
 	}
 	
+	public UserModel findById(Long id) {
+		return userRepo.getById(id);
+	}
+	
 	public String verifyUserData(UserModel user) {
 		user.setDate(new Date());
 		UserModel verifyUser;

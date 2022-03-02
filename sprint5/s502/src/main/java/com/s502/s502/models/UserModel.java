@@ -21,6 +21,19 @@ public class UserModel {
 	private String email;
 	private Date date;
 	
+	
+	
+	public UserModel() {
+		
+	}
+	
+	public UserModel(Long id, String nombre, String email, Date date) {
+		
+		this.id = id;
+		this.nombre = nombre;
+		this.email = email;
+		this.date = date;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -44,6 +57,10 @@ public class UserModel {
 	}
 	public void setDate(Date date) {
 		this.date = date;
+	}
+	@Override
+	public String toString() {
+		return "UserModel [id=" + id + ", nombre=" + nombre + ", email=" + email + ", date=" + date + "]";
 	}
 	
 }

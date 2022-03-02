@@ -44,15 +44,14 @@ public class UserController {
 		}
 	}
 	
-	@PutMapping()
-	public ResponseEntity updateUserName(@RequestBody String email) {
-		System.out.println(email);
-		UserModel user = userService.findByEmail(email);
-		System.out.println(user);
-		//user.setNombre(nombre);
-		//userService.saveUser(user);
+	@PutMapping(path = "/{id}")
+	public ResponseEntity updateUserName(@RequestBody UserModel userFind, @PathVariable("id") Long id) {
+		String nombreNuevo = userFind.getNombre();
+		UserModel user = userService.findById(id);
+		user.setNombre(nombreNuevo);
+		userService.saveUser(user);
 		return (ResponseEntity.status(HttpStatus.OK))
-				.body(user);
+				.body("Actualizado");
 	}
 	
 	@GetMapping()

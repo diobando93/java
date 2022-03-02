@@ -50,5 +50,11 @@ public class GameModel {
 	public void setSuccessPercentaje(double successPercentaje) {
 		this.successPercentaje = successPercentaje;
 	}
+	@Override
+	public String toString() {
+		return "GameModel [id=" + id + ", idUser=" + idUser + ", shotOne=" + shotOne + ", shotTwo=" + shotTwo
+				+ ", successPercentaje=" + successPercentaje + "]";
+	}
+	
 	
 }
