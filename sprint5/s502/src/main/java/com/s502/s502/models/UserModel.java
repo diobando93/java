@@ -6,17 +6,19 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+//mysql
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+import org.springframework.data.mongodb.core.mapping.Document;
+//mysql
 @Entity
 @Table(name = "User")
 public class UserModel {
-	@Id 
+	//mysql
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true)
 	private Long id;
-	
 	private String nombre;
 	private String email;
 	private Date date;
@@ -27,6 +29,7 @@ public class UserModel {
 		
 	}
 	
+
 	public UserModel(Long id, String nombre, String email, Date date) {
 		
 		this.id = id;
@@ -34,15 +37,19 @@ public class UserModel {
 		this.email = email;
 		this.date = date;
 	}
+	
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
+		
+
 	public String getNombre() {
 		return nombre;
 	}
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}

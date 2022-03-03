@@ -2,6 +2,9 @@ package com.s502.s502.services;
 
 import java.util.ArrayList;
 import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
+
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +14,14 @@ import com.s502.s502.models.UserModel;
 
 import com.s502.s502.repositories.UserRepo;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+
 @Service
 public class UserServices {
+	
+	
+	
 	@Autowired
 	UserRepo userRepo;
 	
@@ -56,5 +65,9 @@ public class UserServices {
 		}
 		
 	}
+	
+
+	
+	
 	
 }

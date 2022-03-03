@@ -46,6 +46,7 @@ public class UserController {
 	
 	@PutMapping(path = "/{id}")
 	public ResponseEntity updateUserName(@RequestBody UserModel userFind, @PathVariable("id") Long id) {
+		//leer token, comparar con el id que se ingresa
 		String nombreNuevo = userFind.getNombre();
 		UserModel user = userService.findById(id);
 		user.setNombre(nombreNuevo);
@@ -69,6 +70,7 @@ public class UserController {
 	
 	@PostMapping(path="/{id}/games")
 	public ResponseEntity createGames(@RequestBody GameModel game, @PathVariable("id") Long id) {
+		//leer token, comparar con el id que se ingresa
 		boolean ok = gameService.verifyGameData(game);
 		if(game != null && id != null && ok == true) {
 			double successPercentaje = (game.getShotOne() + game.getShotTwo())/2;
@@ -91,6 +93,7 @@ public class UserController {
 	
 	@GetMapping(path = "/{id}/games")
 	public ResponseEntity readGames(@PathVariable("id") Long id) {
+		//leer token, comparar con el id que se ingresa
 		Optional<UserModel> user;
 		ArrayList<GameModel> game;
 		user = userService.findUserById(id);
@@ -120,6 +123,7 @@ public class UserController {
 	
 	@GetMapping(path = "ranking/loser")
 	public ResponseEntity readLoserGamer() {
+		
 		ArrayList<GameModel> games;
 		games = gameService.readUser();
 		Ranking ranking;
