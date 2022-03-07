@@ -62,6 +62,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+			<version>2.5.0</version>
 		</dependency>
 		
 		<dependency>
@@ -75,6 +76,7 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>2.9.2</version>
 		</dependency>
+		
 		
 		
 	</dependencies>

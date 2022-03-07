@@ -1,7 +1,6 @@
 package com.s502.s502.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,24 +15,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.s502.s502.models.GameModel;
+import com.s502.s502.models.GameModelMongo;
 import com.s502.s502.models.Ranking;
+import com.s502.s502.models.RankingMongo;
 import com.s502.s502.models.UserModel;
+import com.s502.s502.models.UserModelMongo;
 import com.s502.s502.services.GameService;
+import com.s502.s502.services.GameServiceMongo;
 import com.s502.s502.services.UserServiceMongo;
-import com.s502.s502.services.UserServices;
+
 
 @RestController
-@RequestMapping("/players")
-public class UserController {
+@RequestMapping("/playersm")
+public class UserControllerMongo {
 	
 	@Autowired
-	UserServices userService;
+	UserServiceMongo userService;
 	@Autowired
-	GameService gameService;
+	GameServiceMongo gameService;
 	
 	@PostMapping()
-	public ResponseEntity createUser(@RequestBody UserModel user) {
-		
+	public ResponseEntity createUser(@RequestBody UserModelMongo user) {
 		String responseText = userService.verifyUserData(user);
 		if(responseText.equals("Created")) {
 			userService.createUser(user);
@@ -46,10 +48,10 @@ public class UserController {
 	}
 	
 	@PutMapping(path = "/{id}")
-	public ResponseEntity updateUserName(@RequestBody UserModel userFind, @PathVariable("id") Long id) {
+	public ResponseEntity updateUserName(@RequestBody UserModel userFind, @PathVariable("id") String id) {
 		//leer token, comparar con el id que se ingresa
 		String nombreNuevo = userFind.getNombre();
-		UserModel user = userService.findById(id);
+		UserModelMongo user = userService.findById(id);
 		user.setNombre(nombreNuevo);
 		userService.saveUser(user);
 		return (ResponseEntity.status(HttpStatus.OK))
@@ -58,7 +60,7 @@ public class UserController {
 	
 	@GetMapping()
 	public ResponseEntity readUsers() {
-		ArrayList <UserModel> users;
+		ArrayList <UserModelMongo> users;
 		users = userService.readUsers();
 		if(users != null) {
 			return (ResponseEntity.status(HttpStatus.OK))
@@ -70,7 +72,7 @@ public class UserController {
 	}
 	
 	@PostMapping(path="/{id}/games")
-	public ResponseEntity createGames(@RequestBody GameModel game, @PathVariable("id") Long id) {
+	public ResponseEntity createGames(@RequestBody GameModelMongo game, @PathVariable("id") String id) {
 		//leer token, comparar con el id que se ingresa
 		boolean ok = gameService.verifyGameData(game);
 		if(game != null && id != null && ok == true) {
@@ -93,10 +95,10 @@ public class UserController {
 	}
 	
 	@GetMapping(path = "/{id}/games")
-	public ResponseEntity readGames(@PathVariable("id") Long id) {
+	public ResponseEntity readGames(@PathVariable("id") String id) {
 		//leer token, comparar con el id que se ingresa
-		Optional<UserModel> user;
-		ArrayList<GameModel> game;
+		Optional<UserModelMongo> user;
+		ArrayList<GameModelMongo> game;
 		user = userService.findUserById(id);
 		game = gameService.findByUserId(id);
 		if(game != null && user != null) {
@@ -113,10 +115,10 @@ public class UserController {
 	
 	@GetMapping(path = "ranking")
 	public ResponseEntity readRanking() {
-		ArrayList<GameModel> game;
+		ArrayList<GameModelMongo> game;
 		game = gameService.readUser();
 		//System.out.println(game);
-		ArrayList<Ranking> ranking = new ArrayList<>();
+		ArrayList<RankingMongo> ranking = new ArrayList<>();
 		ranking = gameService.ranking(game);
 		return (ResponseEntity.status(HttpStatus.OK))
 				.body(ranking);
@@ -125,9 +127,9 @@ public class UserController {
 	@GetMapping(path = "ranking/loser")
 	public ResponseEntity readLoserGamer() {
 		
-		ArrayList<GameModel> games;
+		ArrayList<GameModelMongo> games;
 		games = gameService.readUser();
-		Ranking ranking;
+		RankingMongo ranking;
 		ranking = gameService.worstGamer(games);
 		return (ResponseEntity.status(HttpStatus.OK))
 				.body(ranking);
@@ -136,15 +138,13 @@ public class UserController {
 	
 	@GetMapping(path = "ranking/winner")
 	public ResponseEntity readWinnerGamer() {
-		ArrayList<GameModel> games;
+		ArrayList<GameModelMongo> games;
 		games = gameService.readUser();
-		Ranking ranking;
+		RankingMongo ranking;
 		ranking = gameService.bestGamer(games);
 		return (ResponseEntity.status(HttpStatus.OK))
 				.body(ranking);
 		
 	}
-	
-	
-	
+
 }

@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.s502.s502.models.UserLoginModel;
 import com.s502.s502.models.UserModel;
+import com.s502.s502.models.UserModelMongo;
 import com.s502.s502.services.JWTService;
+import com.s502.s502.services.UserServiceMongo;
 import com.s502.s502.services.UserServices;
 
 @RestController
@@ -20,12 +22,14 @@ public class UserLoginController {
 	@Autowired 
 	JWTService jwtService;
 	@Autowired
-	UserServices userService;
+	//UserServices userService;
+	UserServiceMongo userService;
 	
 	@PostMapping()
 	public ResponseEntity login(@RequestParam("user") String username) {
 		try {
-			UserModel readUser = userService.findByEmail(username);
+			//UserModel readUser = userService.findByEmail(username);
+			UserModelMongo readUser = userService.findByEmail(username);
 			String token = jwtService.getJWTToken(username);
 			UserLoginModel user = new UserLoginModel();
 			user.setUser(username);

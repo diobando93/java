@@ -29,7 +29,7 @@ public class S502Application {
 			.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.authorizeRequests()
             	.antMatchers(HttpMethod.POST, "/login").permitAll()
-            	.antMatchers(HttpMethod.POST, "/players").permitAll()
+            	.antMatchers(HttpMethod.POST, "/playersm").permitAll()
             	.anyRequest().authenticated();
 				
 		}
