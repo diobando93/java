@@ -16,8 +16,8 @@ public class GameModel {
 	@Column(name = "id", unique = true)
 	private Long id;
 	private Long idUser;
-	private double shotOne;
-	private double shotTwo;
+	private int shotOne;
+	private int shotTwo;
 	private double successPercentaje;
 	
 	public Long getId() {
@@ -32,16 +32,16 @@ public class GameModel {
 	public void setIdUser(Long idUser) {
 		this.idUser = idUser;
 	}
-	public double getShotOne() {
+	public int getShotOne() {
 		return shotOne;
 	}
-	public void setShotOne(double shotOne) {
+	public void setShotOne(int shotOne) {
 		this.shotOne = shotOne;
 	}
-	public double getShotTwo() {
+	public int getShotTwo() {
 		return shotTwo;
 	}
-	public void setShotTwo(double shotTwo) {
+	public void setShotTwo(int shotTwo) {
 		this.shotTwo = shotTwo;
 	}
 	public double getSuccessPercentaje() {

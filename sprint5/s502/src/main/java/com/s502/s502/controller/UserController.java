@@ -47,13 +47,19 @@ public class UserController {
 	
 	@PutMapping(path = "/{id}")
 	public ResponseEntity updateUserName(@RequestBody UserModel userFind, @PathVariable("id") Long id) {
-		//leer token, comparar con el id que se ingresa
-		String nombreNuevo = userFind.getNombre();
 		UserModel user = userService.findById(id);
-		user.setNombre(nombreNuevo);
-		userService.saveUser(user);
-		return (ResponseEntity.status(HttpStatus.OK))
-				.body("Actualizado");
+		if(user != null) {
+			String nombreNuevo = userFind.getNombre();
+			user.setNombre(nombreNuevo);
+			userService.saveUser(user);
+			return (ResponseEntity.status(HttpStatus.OK))
+					.body("Actualizado");
+		}else {
+			return (ResponseEntity.status(HttpStatus.NO_CONTENT))
+					.body("No existe el usuario");
+		}
+		
+		
 	}
 	
 	@GetMapping()
@@ -72,24 +78,32 @@ public class UserController {
 	@PostMapping(path="/{id}/games")
 	public ResponseEntity createGames(@RequestBody GameModel game, @PathVariable("id") Long id) {
 		//leer token, comparar con el id que se ingresa
-		boolean ok = gameService.verifyGameData(game);
-		if(game != null && id != null && ok == true) {
-			double successPercentaje = (game.getShotOne() + game.getShotTwo())/2;
-			game.setSuccessPercentaje(successPercentaje);
-			game.setIdUser(id);
-			gameService.createGame(game);
-			return (ResponseEntity.status(HttpStatus.OK))
-					.body(game);
-		}else if(id == null){
-			return (ResponseEntity.status(HttpStatus.OK))
-					.body("Missing id");
-		}else if(ok == false) {
-			return (ResponseEntity.status(HttpStatus.OK))
-					.body("Missing points");
+		UserModel user = userService.findById(id);
+		if(user != null) {
+			boolean ok = gameService.verifyGameData(game);
+			if(game != null && id != null && ok == true) {
+				
+				double successPercentaje = gameService.percentaje(game);
+				game.setSuccessPercentaje(successPercentaje);
+				game.setIdUser(id);
+				gameService.createGame(game);
+				return (ResponseEntity.status(HttpStatus.OK))
+						.body(game);
+			}else if(id == null){
+				return (ResponseEntity.status(HttpStatus.OK))
+						.body("Missing id");
+			}else if(ok == false) {
+				return (ResponseEntity.status(HttpStatus.OK))
+						.body("Points out of the range");
+			}else {
+				return (ResponseEntity.status(HttpStatus.OK))
+						.body("Missing game data");
+			}
 		}else {
-			return (ResponseEntity.status(HttpStatus.OK))
-					.body("Missing game data");
+			return (ResponseEntity.status(HttpStatus.BAD_REQUEST)).
+					body("no existe la tienda del id");
 		}
+		
 	}
 	
 	@GetMapping(path = "/{id}/games")

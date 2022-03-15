@@ -66,8 +66,32 @@ public class GameServiceMongo {
 	}
 	
 	public boolean verifyGameData(GameModelMongo game) {
+		
 		boolean ok = true;
-		return ok;
+		if(game.getShotOne() >= 0 && game.getShotOne() <= 7 && game.getShotTwo() >= 0 && game.getShotTwo() <= 7) {
+			return ok;
+		}else {
+			ok = false;
+			return ok;
+		}
+		
+		
+	}
+	
+	public double percentaje(GameModelMongo game) {
+		
+		int shotOne = game.getShotOne();
+		int shotTwo = game.getShotTwo();
+		int sum = shotOne + shotTwo;
+		double percentaje = 0;
+		
+		if(sum <= 7) {
+			percentaje = sum / 7 * 100;
+		}else {
+			return percentaje;
+		}
+		
+		return percentaje;
 	}
 
 }

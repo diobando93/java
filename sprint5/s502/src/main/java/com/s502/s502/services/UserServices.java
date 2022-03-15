@@ -16,15 +16,20 @@ import com.s502.s502.repositories.UserRepo;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class UserServices {
 	
+	private final UserRepo userRepo ;
 	
 	
-	@Autowired
-	UserRepo userRepo;
 	
+	public UserServices(UserRepo userRepo) {
+		this.userRepo = userRepo;
+	}
+
 	public UserModel createUser(UserModel user) {
 		return userRepo.save(user);
 	}

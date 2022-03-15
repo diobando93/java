@@ -23,13 +23,6 @@ public class UserModel {
 	private String email;
 	private Date date;
 	
-	
-	
-	public UserModel() {
-		
-	}
-	
-
 	public UserModel(Long id, String nombre, String email, Date date) {
 		
 		this.id = id;
@@ -37,6 +30,13 @@ public class UserModel {
 		this.email = email;
 		this.date = date;
 	}
+	
+	public UserModel() {
+		
+	}
+	
+
+	
 	
 	public Long getId() {
 		return id;

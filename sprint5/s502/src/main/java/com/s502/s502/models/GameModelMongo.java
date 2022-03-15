@@ -9,8 +9,8 @@ public class GameModelMongo {
 	@Id
 	private String id;
 	private String idUser;
-	private double shotOne;
-	private double shotTwo;
+	private int shotOne;
+	private int shotTwo;
 	private double successPercentaje;
 	public String getId() {
 		return id;
@@ -24,16 +24,16 @@ public class GameModelMongo {
 	public void setIdUser(String idUser) {
 		this.idUser = idUser;
 	}
-	public double getShotOne() {
+	public int getShotOne() {
 		return shotOne;
 	}
-	public void setShotOne(double shotOne) {
+	public void setShotOne(int shotOne) {
 		this.shotOne = shotOne;
 	}
-	public double getShotTwo() {
+	public int getShotTwo() {
 		return shotTwo;
 	}
-	public void setShotTwo(double shotTwo) {
+	public void setShotTwo(int shotTwo) {
 		this.shotTwo = shotTwo;
 	}
 	public double getSuccessPercentaje() {
