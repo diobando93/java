@@ -9,8 +9,8 @@ import com.nivel1.nivel1.models.EmpleadoModel;
 
 public interface IEmpleadoRepo extends JpaRepository<EmpleadoModel, Long>{
 	
-	public abstract ArrayList<EmpleadoModel> findByEmpleo(String empleo);
-	public abstract EmpleadoModel findByNombre(String nombre);
+	public ArrayList<EmpleadoModel> findByEmpleo(String empleo);
+	public EmpleadoModel findByNombre(String nombre);
 
 	
 }

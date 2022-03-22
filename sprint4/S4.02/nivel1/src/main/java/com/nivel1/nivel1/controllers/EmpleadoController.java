@@ -148,7 +148,7 @@ public class EmpleadoController {
 	@DeleteMapping(path = "/{id}")
 	public ResponseEntity <String> eliminarPorId(@PathVariable("id") Long id) {
 		boolean ok = empleadoService.eliminarEmpleado(id);
-		if(ok == true) {
+		if(ok) {
 			return ResponseEntity.ok().
 					body("Usuario eliminado con exito, id: " + id);
 		}else {

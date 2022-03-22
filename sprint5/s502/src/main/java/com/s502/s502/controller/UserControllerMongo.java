@@ -81,7 +81,7 @@ public class UserControllerMongo {
 	public ResponseEntity createGames(@RequestBody GameModelMongo game, @PathVariable("id") String id) {
 		//leer token, comparar con el id que se ingresa
 		boolean ok = gameService.verifyGameData(game);
-		if(game != null && id != null && ok == true) {
+		if(game != null && ok == true && id != null) {
 			double successPercentaje = gameService.percentaje(game);
 			game.setSuccessPercentaje(successPercentaje);
 			game.setIdUser(id);

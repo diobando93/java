@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.s502.s502.models.GameModel;
+import com.s502.s502.models.Percentaje;
 import com.s502.s502.models.Ranking;
 import com.s502.s502.models.UserModel;
 import com.s502.s502.services.GameService;
@@ -64,11 +65,12 @@ public class UserController {
 	
 	@GetMapping()
 	public ResponseEntity readUsers() {
-		ArrayList <UserModel> users;
-		users = userService.readUsers();
-		if(users != null) {
+		ArrayList<UserModel> users = userService.readUsers();
+		ArrayList <Percentaje> userPoints;
+		userPoints = gameService.userPercentaje(users);
+		if(userPoints != null) {
 			return (ResponseEntity.status(HttpStatus.OK))
-					.body(users);
+					.body(userPoints);
 		}else {
 			return (ResponseEntity.status(HttpStatus.NO_CONTENT))
 					.body("No existen usuarios registrados");
@@ -83,8 +85,9 @@ public class UserController {
 			boolean ok = gameService.verifyGameData(game);
 			if(game != null && id != null && ok == true) {
 				
-				double successPercentaje = gameService.percentaje(game);
-				game.setSuccessPercentaje(successPercentaje);
+				String successPercentaje = "";
+				successPercentaje = gameService.percentaje(game);
+				game.setItem(successPercentaje);
 				game.setIdUser(id);
 				gameService.createGame(game);
 				return (ResponseEntity.status(HttpStatus.OK))
@@ -105,6 +108,7 @@ public class UserController {
 		}
 		
 	}
+	
 	
 	@GetMapping(path = "/{id}/games")
 	public ResponseEntity readGames(@PathVariable("id") Long id) {
@@ -127,11 +131,11 @@ public class UserController {
 	
 	@GetMapping(path = "ranking")
 	public ResponseEntity readRanking() {
-		ArrayList<GameModel> game;
-		game = gameService.readUser();
-		//System.out.println(game);
-		ArrayList<Ranking> ranking = new ArrayList<>();
-		ranking = gameService.ranking(game);
+		
+		ArrayList<UserModel> users;
+		users = userService.readUsers();
+		ArrayList<Percentaje> ranking = new ArrayList<>();
+		ranking = gameService.ranking(users);
 		return (ResponseEntity.status(HttpStatus.OK))
 				.body(ranking);
 	}
@@ -139,23 +143,23 @@ public class UserController {
 	@GetMapping(path = "ranking/loser")
 	public ResponseEntity readLoserGamer() {
 		
-		ArrayList<GameModel> games;
-		games = gameService.readUser();
-		Ranking ranking;
-		ranking = gameService.worstGamer(games);
+		ArrayList<UserModel> users;
+		users = userService.readUsers();
+		Percentaje loser;
+		loser = gameService.worstGamer(users);
 		return (ResponseEntity.status(HttpStatus.OK))
-				.body(ranking);
+				.body(loser);
 		
 	}
 	
 	@GetMapping(path = "ranking/winner")
 	public ResponseEntity readWinnerGamer() {
-		ArrayList<GameModel> games;
-		games = gameService.readUser();
-		Ranking ranking;
-		ranking = gameService.bestGamer(games);
+		ArrayList<UserModel> users;
+		users = userService.readUsers();
+		Percentaje winner;
+		winner = gameService.bestGamer(users);
 		return (ResponseEntity.status(HttpStatus.OK))
-				.body(ranking);
+				.body(winner);
 		
 	}
 	
