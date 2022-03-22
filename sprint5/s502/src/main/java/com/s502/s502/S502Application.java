@@ -30,6 +30,7 @@ public class S502Application {
 			.authorizeRequests()
             	.antMatchers(HttpMethod.POST, "/login").permitAll()
             	.antMatchers(HttpMethod.POST, "/playersm").permitAll()
+            	.antMatchers(HttpMethod.POST, "/players").permitAll()
             	.anyRequest().authenticated();
 				
 		}

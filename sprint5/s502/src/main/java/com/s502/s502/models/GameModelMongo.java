@@ -11,7 +11,8 @@ public class GameModelMongo {
 	private String idUser;
 	private int shotOne;
 	private int shotTwo;
-	private double successPercentaje;
+	private String item;
+	
 	public String getId() {
 		return id;
 	}
@@ -36,17 +37,18 @@ public class GameModelMongo {
 	public void setShotTwo(int shotTwo) {
 		this.shotTwo = shotTwo;
 	}
-	public double getSuccessPercentaje() {
-		return successPercentaje;
+	public String getItem() {
+		return item;
 	}
-	public void setSuccessPercentaje(double successPercentaje) {
-		this.successPercentaje = successPercentaje;
+	public void setItem(String item) {
+		this.item = item;
 	}
 	@Override
 	public String toString() {
 		return "GameModelMongo [id=" + id + ", idUser=" + idUser + ", shotOne=" + shotOne + ", shotTwo=" + shotTwo
-				+ ", successPercentaje=" + successPercentaje + "]";
+				+ ", item=" + item + "]";
 	}
+	
 	
 	
 

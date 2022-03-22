@@ -14,13 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.s502.s502.models.GameModel;
 import com.s502.s502.models.GameModelMongo;
-import com.s502.s502.models.Ranking;
-import com.s502.s502.models.RankingMongo;
+import com.s502.s502.models.PercentajeMongo;
 import com.s502.s502.models.UserModel;
 import com.s502.s502.models.UserModelMongo;
-import com.s502.s502.services.GameService;
 import com.s502.s502.services.GameServiceMongo;
 import com.s502.s502.services.UserServiceMongo;
 
@@ -49,7 +46,7 @@ public class UserControllerMongo {
 	
 	@PutMapping(path = "/{id}")
 	public ResponseEntity updateUserName(@RequestBody UserModel userFind, @PathVariable("id") String id) {
-		//leer token, comparar con el id que se ingresa
+
 		UserModelMongo user = userService.findById(id);
 		if(user != null) {
 			String nombreNuevo = userFind.getNombre();
@@ -66,66 +63,83 @@ public class UserControllerMongo {
 	
 	@GetMapping()
 	public ResponseEntity readUsers() {
-		ArrayList <UserModelMongo> users;
-		users = userService.readUsers();
+		
+		ArrayList <UserModelMongo> users = userService.readUsers();
+		ArrayList <PercentajeMongo> userPoints;
+		userPoints = gameService.userPercentaje(users);
+		
 		if(users != null) {
 			return (ResponseEntity.status(HttpStatus.OK))
-					.body(users);
+					.body(userPoints);
 		}else {
-			return (ResponseEntity.status(HttpStatus.NO_CONTENT))
+			return (ResponseEntity.status(HttpStatus.OK))
 					.body("No existen usuarios registrados");
 		}
 	}
 	
 	@PostMapping(path="/{id}/games")
 	public ResponseEntity createGames(@RequestBody GameModelMongo game, @PathVariable("id") String id) {
-		//leer token, comparar con el id que se ingresa
-		boolean ok = gameService.verifyGameData(game);
-		if(game != null && ok == true && id != null) {
-			double successPercentaje = gameService.percentaje(game);
-			game.setSuccessPercentaje(successPercentaje);
-			game.setIdUser(id);
-			gameService.createGame(game);
-			return (ResponseEntity.status(HttpStatus.OK))
-					.body(game);
-		}else if(id == null){
-			return (ResponseEntity.status(HttpStatus.OK))
-					.body("Missing id");
-		}else if(ok == false) {
-			return (ResponseEntity.status(HttpStatus.OK))
-					.body("Points out of the range");
+		
+		Optional<UserModelMongo> user = userService.findUserById(id);
+		
+		if(!user.isEmpty()) {
+			boolean ok = gameService.verifyGameData(game);
+			if(game != null && ok == true && id != null) {
+				String successPercentaje = "";
+				successPercentaje = gameService.percentaje(game);
+				game.setItem(successPercentaje);
+				game.setIdUser(id);
+				gameService.createGame(game);
+				return (ResponseEntity.status(HttpStatus.OK))
+						.body(game);
+			}else if(id == null){
+				return (ResponseEntity.status(HttpStatus.OK))
+						.body("Missing id");
+			}else if(ok == false) {
+				return (ResponseEntity.status(HttpStatus.OK))
+						.body("Points out of the range");
+			}else {
+				return (ResponseEntity.status(HttpStatus.OK))
+						.body("Missing game data");
+			}
+			
 		}else {
-			return (ResponseEntity.status(HttpStatus.OK))
-					.body("Missing game data");
+			return (ResponseEntity.status(HttpStatus.BAD_REQUEST)).
+					body("no existe el usario del id");
 		}
 	}
 	
 	@GetMapping(path = "/{id}/games")
 	public ResponseEntity readGames(@PathVariable("id") String id) {
-		//leer token, comparar con el id que se ingresa
+
 		Optional<UserModelMongo> user;
 		ArrayList<GameModelMongo> game;
 		user = userService.findUserById(id);
-		game = gameService.findByUserId(id);
-		if(game != null && user != null) {
-			return (ResponseEntity.status(HttpStatus.OK))
-					.body(game);
-		}else if(user == null) {
+		
+		if(user.isEmpty()) {
 			return (ResponseEntity.status(HttpStatus.OK))
 					.body("No se ha registrado este usuario");
 		}else {
-			return (ResponseEntity.status(HttpStatus.OK))
-					.body("No existen juegos para este usuario");
+			game = gameService.findByUserId(id);
+			if(game.size() > 0) {
+				return (ResponseEntity.status(HttpStatus.OK))
+						.body(game);
+			}else {
+				return (ResponseEntity.status(HttpStatus.OK))
+						.body("no existen juegos registrados de este usuario");
+			}
+			
 		}
 	}
 	
 	@GetMapping(path = "ranking")
 	public ResponseEntity readRanking() {
-		ArrayList<GameModelMongo> game;
-		game = gameService.readUser();
-		//System.out.println(game);
-		ArrayList<RankingMongo> ranking = new ArrayList<>();
-		ranking = gameService.ranking(game);
+		
+		ArrayList<UserModelMongo> users;
+		users = userService.readUsers();
+		ArrayList<PercentajeMongo> ranking = new ArrayList<>();
+		ranking = gameService.ranking(users);
+		
 		return (ResponseEntity.status(HttpStatus.OK))
 				.body(ranking);
 	}
@@ -133,23 +147,27 @@ public class UserControllerMongo {
 	@GetMapping(path = "ranking/loser")
 	public ResponseEntity readLoserGamer() {
 		
-		ArrayList<GameModelMongo> games;
-		games = gameService.readUser();
-		RankingMongo ranking;
-		ranking = gameService.worstGamer(games);
+		ArrayList<UserModelMongo> users;
+		users = userService.readUsers();
+		PercentajeMongo loser;
+		loser = gameService.worstGamer(users);
+		
 		return (ResponseEntity.status(HttpStatus.OK))
-				.body(ranking);
+				.body(loser);
 		
 	}
 	
+	
 	@GetMapping(path = "ranking/winner")
 	public ResponseEntity readWinnerGamer() {
-		ArrayList<GameModelMongo> games;
-		games = gameService.readUser();
-		RankingMongo ranking;
-		ranking = gameService.bestGamer(games);
+		
+		ArrayList<UserModelMongo> users;
+		users = userService.readUsers();
+		PercentajeMongo winner;
+		winner = gameService.bestGamer(users);
+		
 		return (ResponseEntity.status(HttpStatus.OK))
-				.body(ranking);
+				.body(winner);
 		
 	}
 

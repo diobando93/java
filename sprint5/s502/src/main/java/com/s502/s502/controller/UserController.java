@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.s502.s502.models.GameModel;
 import com.s502.s502.models.Percentaje;
-import com.s502.s502.models.Ranking;
 import com.s502.s502.models.UserModel;
 import com.s502.s502.services.GameService;
 import com.s502.s502.services.UserServiceMongo;
@@ -56,7 +55,7 @@ public class UserController {
 			return (ResponseEntity.status(HttpStatus.OK))
 					.body("Actualizado");
 		}else {
-			return (ResponseEntity.status(HttpStatus.NO_CONTENT))
+			return (ResponseEntity.status(HttpStatus.OK))
 					.body("No existe el usuario");
 		}
 		
@@ -65,26 +64,28 @@ public class UserController {
 	
 	@GetMapping()
 	public ResponseEntity readUsers() {
+		
 		ArrayList<UserModel> users = userService.readUsers();
 		ArrayList <Percentaje> userPoints;
 		userPoints = gameService.userPercentaje(users);
+		
 		if(userPoints != null) {
 			return (ResponseEntity.status(HttpStatus.OK))
 					.body(userPoints);
 		}else {
-			return (ResponseEntity.status(HttpStatus.NO_CONTENT))
+			return (ResponseEntity.status(HttpStatus.OK))
 					.body("No existen usuarios registrados");
 		}
 	}
 	
 	@PostMapping(path="/{id}/games")
 	public ResponseEntity createGames(@RequestBody GameModel game, @PathVariable("id") Long id) {
-		//leer token, comparar con el id que se ingresa
-		UserModel user = userService.findById(id);
-		if(user != null) {
+		
+		Optional<UserModel> user = userService.findUserById(id);
+		
+		if(!user.isEmpty()) {
 			boolean ok = gameService.verifyGameData(game);
 			if(game != null && id != null && ok == true) {
-				
 				String successPercentaje = "";
 				successPercentaje = gameService.percentaje(game);
 				game.setItem(successPercentaje);
@@ -104,7 +105,7 @@ public class UserController {
 			}
 		}else {
 			return (ResponseEntity.status(HttpStatus.BAD_REQUEST)).
-					body("no existe la tienda del id");
+					body("no existe el usario del id");
 		}
 		
 	}
@@ -116,17 +117,21 @@ public class UserController {
 		Optional<UserModel> user;
 		ArrayList<GameModel> game;
 		user = userService.findUserById(id);
-		game = gameService.findByUserId(id);
-		if(game != null && user != null) {
-			return (ResponseEntity.status(HttpStatus.OK))
-					.body(game);
-		}else if(user == null) {
+		if(user.isEmpty()) {
 			return (ResponseEntity.status(HttpStatus.OK))
 					.body("No se ha registrado este usuario");
 		}else {
-			return (ResponseEntity.status(HttpStatus.OK))
-					.body("No existen juegos para este usuario");
+			game = gameService.findByUserId(id);
+			if(game.size() > 0) {
+				return (ResponseEntity.status(HttpStatus.OK))
+						.body(game);
+			}else {
+				return (ResponseEntity.status(HttpStatus.OK))
+						.body("no existen juegos registrados de este usuario");
+			}
+			
 		}
+		
 	}
 	
 	@GetMapping(path = "ranking")
@@ -136,6 +141,7 @@ public class UserController {
 		users = userService.readUsers();
 		ArrayList<Percentaje> ranking = new ArrayList<>();
 		ranking = gameService.ranking(users);
+		
 		return (ResponseEntity.status(HttpStatus.OK))
 				.body(ranking);
 	}
@@ -147,6 +153,7 @@ public class UserController {
 		users = userService.readUsers();
 		Percentaje loser;
 		loser = gameService.worstGamer(users);
+		
 		return (ResponseEntity.status(HttpStatus.OK))
 				.body(loser);
 		
@@ -154,10 +161,12 @@ public class UserController {
 	
 	@GetMapping(path = "ranking/winner")
 	public ResponseEntity readWinnerGamer() {
+		
 		ArrayList<UserModel> users;
 		users = userService.readUsers();
 		Percentaje winner;
 		winner = gameService.bestGamer(users);
+		
 		return (ResponseEntity.status(HttpStatus.OK))
 				.body(winner);
 		

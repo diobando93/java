@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import com.s502.s502.models.GameModel;
 import com.s502.s502.models.Percentaje;
-import com.s502.s502.models.Ranking;
 import com.s502.s502.models.UserModel;
 import com.s502.s502.repositories.GameRepo;
 
